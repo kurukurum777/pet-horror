@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>おうちのペット一覧 🐾</title>
+  <style>
+    /* 全体の背景やフォントを可愛く設定（詳細画面と同じ！） */
+    body {
+      background-color: #fff9f3; /* 優しいミルキーホワイト */
+      font-family: 'Hiragino Maru Gothic ProN', 'Yu Gothic', sans-serif; /* 丸ゴシック体 */
+      color: #5c4033; /* チョコレートブラウンの文字 */
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    /* タイトルのデザイン */
+    h1 {
+      font-size: 36px;
+      margin-top: 60px;
+      margin-bottom: 15px;
+      color: #e4875d; /* サーモンピンク */
+      text-align: center;
+      text-shadow: 2px 2px 0px #ffccb6; /* 可愛い影をつけてポップに */
+    }
+
+    /* タイトル下のちょっとした説明文 */
+    .subtitle {
+      font-size: 16px;
+      color: #a08070;
+      margin-bottom: 40px;
+      background-color: #fff0e5;
+      padding: 8px 20px;
+      border-radius: 20px;
+    }
+
+    /* ペット一覧のリストの設定 */
+    ul {
+      list-style-type: none; /* デフォルトの黒い点を消す */
+      padding: 0;
+      width: 90%;
+      max-width: 400px;
+    }
+
+    /* 各ペットのリンクを可愛いボタン風に！ */
+    li {
+      margin-bottom: 25px;
+    }
+
+    li a {
+      display: block;
+      background-color: #ffffff;
+      border: 3px solid #ffccb6; /* パステルピンクの線 */
+      border-radius: 20px; /* 角丸にして優しく */
+      padding: 25px 20px;
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+      color: #5c4033;
+      text-decoration: none; /* リンクの下線を消す */
+      box-shadow: 0 6px 0 #ffccb6; /* 下に影をつけて立体的なボタンに */
+      transition: all 0.2s; /* アニメーションを滑らかに */
+      position: relative;
+    }
+
+    /* マウスを乗せたとき・クリックしたときのぷにぷにした動き */
+    li a:hover {
+      transform: translateY(2px);
+      box-shadow: 0 4px 0 #ffccb6;
+      background-color: #fffaf7;
+    }
+    li a:active {
+      transform: translateY(6px);
+      box-shadow: none;
+    }
+    
+    /* ボタンの端っこにワンポイントの装飾 */
+    li a::after {
+      content: "🐾";
+      position: absolute;
+      right: 20px;
+      opacity: 0.5;
+    }
+  </style>
+</head>
+<body>
+  <audio id="bgm1" src="/sanbikinokobuta.mp3" autoplay loop></audio>
+
+  <h1>おうちのペットたち</h1>
+  <div class="subtitle">気になる子をクリックしてね！</div>
+
+  <ul id="list"></ul>
+
+  <script src="main.js"></script>
+</body>
+</html>
