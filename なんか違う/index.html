@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>うちのペット紹介</title>
+  <style>
+    body { font-family: sans-serif; background: #fff; }
+
+    /* 右下固定の「help me!」ボタン */
+    #helpBtn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: red;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      animation: shake 1.5s infinite; /* 震えるアニメ */
+      z-index: 999;
+    }
+    @keyframes shake {
+      0%,100% { transform: rotate(0deg); }
+      25% { transform: rotate(-3deg); }
+      75% { transform: rotate(3deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🐾 うちのペット紹介</h1>
+  <ul id="list"></ul>
+
+  <!-- BGM1 -->
+  <audio id="bgm1" src="bgm1.mp3" autoplay loop></audio>
+
+  <!-- helpボタン -->
+  <button id="helpBtn" onclick="location.href='/missing'">help me!</button>
+  <script src="main.js"></script>
+</body>
+</html>

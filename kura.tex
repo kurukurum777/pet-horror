@@ -1,0 +1,131 @@
+\documentclass[a4paper,12pt]{ltjsarticle}
+
+\usepackage{luatexja}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{listings}
+
+\geometry{
+top=25mm,
+bottom=25mm,
+left=25mm,
+right=25mm
+}
+
+\lstset{
+basicstyle=\ttfamily\small,
+breaklines=true,
+frame=single,
+numbers=left,
+numberstyle=\tiny
+}
+
+\title{Webサービス制作 最終レポート}
+
+\author{
+学生番号：25G1100\\
+氏名：生天目 瑠美
+}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{公開URL}
+
+\url{http://52.231.33.164/index.html}
+
+\section{制作目的}
+
+本作品は，一見すると可愛らしいペット紹介サイトでありながら，特定の操作を行うことでホラー演出へと変化するWebサービスの制作を目的とした．
+
+通常画面では犬やインコなどのペット情報を閲覧でき，ペットごとの特徴を追加・削除することができる．また，サイト内には隠された導線を設けており，行方不明画面や呪い画面へ遷移することで，かわいらしい雰囲気から恐怖演出へ変化する仕組みを実装した．
+
+本制作を通して，Node.jsおよびExpressを利用したWebサーバの構築方法や，APIを利用したデータ管理，EJSによる動的な画面生成について学ぶことを目的とした．
+
+\section{サーバー側プログラム}
+
+以下にサーバー側プログラム（pet.js）を示す．
+
+\begin{lstlisting}%ここに pet.js を丸ごと貼り付ける
+
+"use strict";
+
+const express = require("express");
+const app = express();
+const PORT = 80;
+
+let pets = require("./petData");
+
+// EJSを使うための設定
+app.set("view engine", "ejs");
+
+app.use(express.json());
+// 画像や音楽、静的ファイルを読み込めるようにする設定
+app.use(express.static(__dirname));
+
+// ペット一覧データ（API）
+app.get("/api/pets", (req, res) => {
+  res.json(pets);
+});
+
+// ペット詳細データ（API）
+app.get("/api/pets/:id", (req, res) => {
+  const pet = pets.find(p => p.id === Number(req.params.id));
+  res.json(pet);
+});
+
+// 好きなポイント追加（POST）
+app.post("/api/pets/:id/likes", (req, res) => {
+  const pet = pets.find(p => p.id === Number(req.params.id));
+  pet.likes.push(req.body.text);
+  res.json(pet);
+});
+
+// 好きなポイント削除（DELETE）
+app.delete("/api/pets/:id/likes/:index", (req, res) => {
+  const pet = pets.find(p => p.id === Number(req.params.id));
+  pet.likes.splice(Number(req.params.index), 1);
+  res.json(pet);
+});
+
+
+/* ========================================================
+   ここから：EJS（画面表示）用のルーティング設定
+   これでキレイなURL（/pet/1 などの形）でアクセスできるようになります
+======================================================== */
+
+// ① ペット詳細画面 (例: http://IPアドレス:8081/pet/1)
+app.get("/pet/:id", (req, res) => {
+  const pet = pets.find(p => p.id === Number(req.params.id));
+  if (!pet) return res.status(404).send("ペットが見つかりません");
+  // views/detail.ejs を表示、同時にpetデータを渡す
+  res.render("detail", { pet: pet });
+});
+
+// ② 行方不明画面 (例: http://IPアドレス:8081/missing/1)
+app.get("/missing/:id", (req, res) => {
+  const pet = pets.find(p => p.id === Number(req.params.id));
+  if (!pet) return res.status(404).send("ペットが見つかりません");
+  // views/missing.ejs を表示
+  res.render("missing", { pet: pet });
+});
+
+// ③ 呪い画面 (例: http://IPアドレス:8081/curse/1)
+app.get("/curse/:id", (req, res) => {
+  const pet = pets.find(p => p.id === Number(req.params.id));
+  if (!pet) return res.status(404).send("ペットが見つかりません");
+  // views/curse.ejs を表示
+  res.render("curse", { pet: pet });
+});
+
+
+app.listen(PORT, () => {
+  console.log(`http://localhost:${PORT}`);
+});
+
+\end{lstlisting}
+
+\end{document}

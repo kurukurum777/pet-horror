@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <style>
+    body {
+      background: #000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .curse-image {
+      width: 380px;
+      animation: sway 3s ease-in-out infinite;
+    }
+    @keyframes sway {
+      0%,100% { transform: rotate(-2deg); }
+      50% { transform: rotate(2deg); }
+    }
+    .curse-text {
+      color: #ff0000;
+      font-size: 48px;
+      font-weight: bold;
+      text-shadow: 0 0 15px red, 0 0 30px darkred;
+      letter-spacing: 8px;
+      margin-top: 30px;
+      animation: pulse 1s infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(1.05); }
+    }
+    #countdown {
+      color: #555;
+      font-size: 13px;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <!-- BGM3: 赤ちゃん泣き声 ループ -->
+  <audio id="bgm3" src="bgm3.mp3" autoplay loop></audio>
+
+  <!-- 画像2 -->
+  <img class="curse-image" src="image2.jpg" alt="">
+
+  <div class="curse-text">かえせ　かえせ　かえせ</div>
+
+  <p id="countdown"></p>
+
+  <script>
+    // 60秒カウントダウン → index.htmlへ戻る
+    let seconds = 60;
+    const el = document.getElementById("countdown");
+
+    const timer = setInterval(() => {
+      seconds--;
+      el.textContent = `（${seconds}秒後に戻ります...）`;
+      if (seconds <= 0) {
+        clearInterval(timer);
+        location.href = "/pet";
+      }
+    }, 1000);
+  </script>
+</body>
+</html>

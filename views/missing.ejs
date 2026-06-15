@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>MISSING</title>
+  <style>
+    body { background: #000; color: #fff; text-align: center; font-family: 'Georgia', serif; padding: 40px; }
+    h1 { font-size: 80px; color: #ff0000; letter-spacing: 10px; text-shadow: 0 0 20px red; }
+    .pet-image { width: 280px; border: 4px solid #ff0000; margin: 20px auto; display: block; filter: grayscale(60%); }
+    .info { font-size: 22px; margin: 8px 0; color: #ddd; }
+    #contactBtn { margin-top: 40px; background: #1a1a1a; color: #ff4444; border: 2px solid #ff0000; padding: 14px 30px; font-size: 18px; cursor: pointer; letter-spacing: 2px; }
+    #contactBtn:hover { background: #ff0000; color: #000; }
+  </style>
+</head>
+<body>
+  <audio id="bgm2" src="/Buddhism_sutra2.mp3" autoplay loop></audio>
+
+  <h1>⚠ MISSING ⚠</h1>
+  <p style="font-size:26px; color:#aaa;">― 探しています ―</p>
+
+  <img class="pet-image" src="/miss.jpg" alt="行方不明">
+
+  <p class="info">年齢：19歳</p>
+  <p class="info">名前：<生天目　瑠美></p>
+  <p class="info">最終目撃場所：<東京都杉並区阿佐谷南2-4-4></p>
+  <p class="info">最終目撃日時：2006/11/3</p>
+
+  <br>
+  <button id="contactBtn" onclick="location.href='/curse/<%= pet.id %>'">▶ 情報を提供する</button>
+</body>
+</html>

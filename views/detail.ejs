@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title><%= pet.name %> の詳細</title>
+  <style>
+    /* 全体の背景やフォントを可愛く設定 */
+    body {
+      background-color: #fff9f3;
+      font-family: 'Hiragino Maru Gothic ProN', 'Yu Gothic', sans-serif;
+      color: #5c4033;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    /* 左右の切り替えボタンを配置するヘッダー */
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      width: 90%;
+      max-width: 500px;
+      margin-top: 30px;
+    }
+
+    /* ルナとココアの切り替えボタン */
+    .nav-btn {
+      background-color: #ffffff;
+      border: 3px solid #ffccb6;
+      color: #5c4033;
+      padding: 10px 20px;
+      font-size: 15px;
+      font-weight: bold;
+      border-radius: 20px;
+      cursor: pointer;
+      box-shadow: 0 4px 0 #ffccb6;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
+    }
+    .nav-btn:hover {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 #ffccb6;
+    }
+    .nav-btn.active {
+      background-color: #ffccb6;
+      color: #ffffff;
+      box-shadow: none;
+      transform: translateY(4px);
+    }
+
+    /* ペット詳細を包む可愛いカード */
+    .pet-card {
+      background-color: #ffffff;
+      border-radius: 30px;
+      padding: 30px;
+      width: 85%;
+      max-width: 450px;
+      margin-top: 25px;
+      box-shadow: 0 8px 20px rgba(224, 182, 161, 0.2);
+      border: 2px dashed #e0b6a1;
+      text-align: center;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin: 0 0 10px 0;
+      color: #e4875d;
+    }
+
+    .pet-type {
+      font-size: 14px;
+      color: #a08070;
+      background-color: #fff0e5;
+      padding: 6px 15px;
+      border-radius: 15px;
+      display: inline-block;
+      margin-bottom: 25px;
+    }
+
+    h2 {
+      font-size: 18px;
+      border-bottom: 2px solid #fff0e5;
+      padding-bottom: 8px;
+      color: #5c4033;
+      text-align: left;
+      margin-top: 10px;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+      text-align: left;
+    }
+    li {
+      background-color: #fffaf7;
+      margin-bottom: 12px;
+      padding: 12px 15px;
+      border-radius: 12px;
+      font-size: 14px;
+      line-height: 1.5;
+      border-left: 5px solid #ffccb6;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .delete-btn {
+      background-color: #ffb3b3;
+      color: white;
+      border: none;
+      padding: 4px 10px;
+      font-size: 11px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-left: 10px;
+      flex-shrink: 0;
+      transition: background 0.2s;
+    }
+    .delete-btn:hover { background-color: #ff8080; }
+
+    .input-container {
+      margin-top: 25px;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+    #newLike {
+      border: 2px solid #ffccb6;
+      padding: 10px;
+      border-radius: 15px;
+      font-size: 14px;
+      width: 65%;
+      outline: none;
+      color: #5c4033;
+    }
+    #add {
+      background-color: #ffccb6;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    #add:hover { background-color: #e4875d; }
+
+    .back-link {
+      margin-top: 25px;
+      margin-bottom: 80px;
+      color: #a08070;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .back-link:hover { text-decoration: underline; }
+
+    #helpBtn {
+      position: fixed; bottom: 20px; right: 20px;
+      background-color: #ff4d4d; color: white;
+      border: none; padding: 12px 24px;
+      font-size: 16px; font-weight: bold; cursor: pointer;
+      border-radius: 50px;
+      box-shadow: 0 4px 15px rgba(255,0,0,0.4);
+      transition: all 0.2s;
+      z-index: 100;
+    }
+    #helpBtn:hover { 
+      background-color: #dd0000;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+
+  <audio id="bgm1" src="/sanbikinokobuta.mp3" autoplay loop></audio>
+
+  <div class="nav-container">
+    <a href="/pet/2" id="btn-luna" class="nav-btn">← ルナちゃん (•ө•)っ🪽</a>
+    <a href="/pet/1" id="btn-cocoa" class="nav-btn">ココアちゃん ᐡ• ˕ •ᐡ →</a>
+  </div>
+
+  <div class="pet-card">
+    <h1><%= pet.name %></h1>
+    <div class="pet-type">種類：<%= pet.type %></div>
+
+    <h2>ちゅーもくポイント！</h2>
+    <ul id="likes">
+      <% pet.likes.forEach((like, index) => { %>
+        <li>
+          <span><%= like %></span>
+          <button class="delete-btn" onclick="removeLike(<%= index %>)">削除</button>
+        </li>
+      <% }) %>
+    </ul>
+
+    <div class="input-container">
+      <input id="newLike" placeholder="好きなところを入力してね">
+      <button id="add">追加</button>
+    </div>
+  </div>
+
+  <a href="/index.html" class="back-link">✿ ペット一覧にもどる ✿</a>
+
+  <button id="helpBtn" onclick="location.href='/missing/<%= pet.id %>'">help me!</button>
+
+  <script>
+    "use strict";
+    
+    // ★修正箇所2：サーバーから直接ID（1か2）を受け取る（絶対にズレない確実な方法！）
+    const id = "<%= pet.id %>";
+
+    // 現在表示しているペットのボタンを「アクティブ」にする
+    if (id === "1") {
+      document.getElementById("btn-cocoa").classList.add("active");
+    } else if (id === "2") {
+      document.getElementById("btn-luna").classList.add("active");
+    }
+
+    // データの読み込みと画面の書き換え（追加・削除時に動く）
+    function load() {
+      fetch(`/api/pets/${id}`)
+        .then(res => res.json())
+        .then(pet => {
+          const ul = document.getElementById("likes");
+          ul.innerHTML = "";
+          pet.likes.forEach((like, index) => {
+            const li = document.createElement("li");
+            li.innerHTML = `<span>${like}</span> <button class="delete-btn" onclick="removeLike(${index})">削除</button>`;
+            ul.appendChild(li);
+          });
+        });
+    }
+
+    // 追加ボタン
+    document.getElementById("add").onclick = () => {
+      const text = document.getElementById("newLike").value;
+      if(!text.trim()) return;
+
+      fetch(`/api/pets/${id}/likes`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text })
+      }).then(() => {
+        document.getElementById("newLike").value = "";
+        load();
+      });
+    };
+
+    // 削除ボタン
+    function removeLike(index) {
+      fetch(`/api/pets/${id}/likes/${index}`, {
+        method: "DELETE"
+      }).then(load);
+    }
+  </script>
+</body>
+</html>
