@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>呪</title>
+  <style>
+    /* スクロールできるようにするため、縦長（3000px）の真っ黒な空間を作ります */
+    html, body {
+      background-color: #000000;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 3000px; /* 縦長にする */
+      font-family: 'Hiragino Mincho ProN', 'MS Mincho', serif;
+      color: #ffffff;
+    }
+
+    /* 共通設定：画面の中央に要素を配置するためのブロック */
+    .screen-section {
+      width: 100%;
+      height: 100vh; /* 画面1個分の高さ */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+    }
+
+    /* 最初の画面：下向き矢印のスタイル */
+    .arrow-container {
+      text-align: center;
+    }
+    .arrow-text {
+      font-size: 16px;
+      color: #555555;
+      letter-spacing: 4px;
+      margin-bottom: 10px;
+    }
+    .arrow {
+      font-size: 45px;
+      color: #333333;
+      animation: bounce 1.5s infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(15px); color: #666666; }
+    }
+
+    /* 2番目の画面：「みつけた」（白い文字） */
+    .white-text {
+      color: #ffffff;
+      font-size: 40px;
+      letter-spacing: 15px;
+      font-weight: bold;
+      opacity: 0.8;
+    }
+
+    /* 3番目の画面：狂ったように並ぶ「かえして」 */
+    .glitch-area {
+      max-width: 80%;
+      text-align: center;
+      line-height: 1.8;
+    }
+    .glitch-text {
+      color: #880000; /* くすんだ赤 */
+      font-size: 28px;
+      letter-spacing: 5px;
+      display: inline-block;
+    }
+
+
+    /* 最後の画面：恐怖の画像 */
+    .horror-image {
+      width: 380px;
+      max-width: 90%;
+      filter: grayscale(40%) contrast(130%);
+      animation: none;
+    }
+    @keyframes sway {
+      0%, 100% { transform: rotate(-2deg) scale(1); }
+      50% { transform: rotate(2deg) scale(1.03); }
+    }
+  </style>
+</head>
+<body>
+
+  <audio id="bgm3" src="/baby-cry.mp3" autoplay loop></audio>
+
+  <div class="screen-section">
+    <div class="arrow-container">
+      <div class="arrow-text">こっちにこないで</div>
+      <div class="arrow">↓</div>
+    </div>
+  </div>
+
+  <div class="screen-section">
+    <div class="white-text">み つ け た</div>
+  </div>
+
+  <div class="screen-section">
+    <div class="glitch-area">
+      <div class="glitch-text">
+        かえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえして
+        かえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえして
+        かえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえして
+        かえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえして
+        かえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえしてかえして
+        
+
+      </div>
+    </div>
+  </div>
+
+  <div class="screen-section" id="finalSection">
+    <img class="horror-image" src="/horror.PNG" alt="恐怖">
+  </div>
+
+  <script>
+    let hasTriggered = false; // タイマーが二重に動かないようにするためのフラグ
+
+    // スクロールを監視するイベント
+    window.addEventListener('scroll', () => {
+      const finalSection = document.getElementById('finalSection');
+      const rect = finalSection.getBoundingClientRect();
+      
+      // 画像があるエリア（一番下）が画面内に入ってきたかどうかを判定
+      if (rect.top < window.innerHeight && !hasTriggered) {
+        hasTriggered = true; // 反応済みにする
+
+        // 画像が見えてから13秒（13000ミリ秒）後にペット一覧に戻す
+        setTimeout(() => {
+          window.location.href = "/index.html";
+        }, 13000);
+      }
+    });
+  </script>
+
+</body>
+</html>
